@@ -14,7 +14,7 @@
       "VOD": false,
       "disableAudio": true,
       "debug": false,
-      "url": "rtsp://admin:Mon1900@reolink-white:554/h264Preview_01_main"
+      "url": "rtsp://user:passowd@url:port/stream"
     }
   },
   "client": {

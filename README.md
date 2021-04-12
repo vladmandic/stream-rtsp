@@ -41,7 +41,7 @@ This project also provides additional examples for:
 
 Example `config.json`
 
-```json
+```js
 {
   "server": {
     "httpPort": 8000,
@@ -58,7 +58,7 @@ Example `config.json`
       "VOD": false,
       "disableAudio": true,
       "debug": false,
-      "url": "rtsp://admin:Mon1900@reolink-white:554/h264Preview_01_main"
+      "url": "rtsp://user:passowd@url:port/stream"
     }
   },
   "client": {
@@ -122,10 +122,10 @@ Server output:
 ```shell
 ffmpeg -hide_banner -loglevel fatal \
   -rtsp_transport tcp -flags -global_header \
-  -i "rtsp://admin:Mon1900@reolink-white:554/h264Preview_01_main" \
+  -i "rtsp://user:passowd@url:port/stream" \
   -an -c:v copy -b:v 2048k \
   -f hls -lhls 1 -hls_time 1 -hls_wrap 5 -hls_segment_type fmp4 \
-  "tmp/reolink-white.m3u8"
+  "tmp/stream.m3u8"
 ```
 
 ### Test HLS Stream
@@ -154,10 +154,10 @@ ffmpeg -hide_banner -loglevel fatal \
 ```shell
 ffmpeg -hide_banner -loglevel fatal \
   -rtsp_transport tcp -flags -global_header \
-  -i "rtsp://admin:Mon1900@reolink-white:554/h264Preview_01_main" \
+  -i "rtsp://user:passowd@url:port/stream" \
   -an -c:v copy -b:v 2048k \
   -f dash -window_size 3 -extra_window_size 1 -ldash 1 -seg_duration 3 -frag_duration 1 -target_latency 5 -streaming 1 -remove_at_exit 1 \
-  "tmp/reolink-white.mpd"
+  "tmp/stream.mpd"
 ```
 
 ### Test

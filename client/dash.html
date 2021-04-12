@@ -17,7 +17,7 @@
     <script>
       const video = document.getElementById('video');
       const player = dashjs.MediaPlayer().create();
-      const src = '/tmp/reolink-white.mpd';
+      const src = '/tmp/stream.mpd';
       player.on(dashjs.MediaPlayer.events['CAN_PLAY'], () => console.log('start stream info', player.getActiveStream()?.getStreamInfo()?.manifestInfo));
       player.on(dashjs.MediaPlayer.events['MANIFEST_LOADED'], () => console.log('update stream info', player.getActiveStream()?.getStreamInfo()?.manifestInfo));
       player.initialize(video, src, true);
