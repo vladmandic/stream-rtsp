@@ -1,19 +1,24 @@
 # Transcode & Play RTSP Video Streams in Browser
 
-Real Time Streaming Protocol (RTSP) and Real Time Messaging Protocol (RTMP) are frequently used in security cameras  
-and were originally supported in browsers via plugins such as *RealMedia* (for RTSP) or *Flash* (for RTMP)
+Real Time Streaming Protocol (RTSP) and Real Time Messaging Protocol (RTMP) are
+frequently used in security cameras and were originally supported in browsers  
+via plugins such as *RealMedia* (for RTSP) or *Flash* (for RTMP)
 
-However, such binary plugins are nowadays considered a security risk and are disabled in all modern browsers
+However, such binary plugins are nowadays considered a security risk  
+and are disabled in all modern browsers
 
 *So what are the options to view RTSP video stream in modern browsers?*
 
-- First we need to encapsulate video stream from RTSP into a known streaming format on the server side  
-(all solutions require a server component)  
-And if camera already provides video stream in a well-known format such as H264,  
-we only need to re-encapsulate it, we don't need to decode/encode it, so operation is lightweight
+- First we need to encapsulate video stream from RTSP into  
+  a known streaming format on the server side  
+  (all solutions require a server component)  
+  And if camera already provides video stream in a well-known format such as H264,  
+  we only need to re-encapsulate it, we don't need to decode/encode it,  
+  so operation is lightweight
 
 - Then we can access that new stream from the browser using standard `Video` element,  
-either natively or using a JavaScript library that provides HTML5 Media Source Extensions to the Video element
+either natively or using a JavaScript library that provides  
+HTML5 Media Source Extensions to the Video element
 
 ## Options
 
@@ -21,9 +26,12 @@ Best solution is to use latest web streaming standard **WebRTC** (*Web Real-Time
 
 This project also provides additional examples for:
 
-- Using `FFMpeg` to encapsulate **RSTP** into a **HLS** (*HTTP Live Streaming*) and using `hls.js` library to play stream in browser
-- Using `FFMpeg` to encapsulate **RSTP** into a **DASH** (*Dynamic Adaptive Streaming over HTTP*) and using `dash.js` library to play stream in browser
-- Using `FFMpeg` to encapsulate **RSTP** into a **FLV** (*Adobe Flash Video*) and using `flv.js` library to play stream in browser (TBD)
+- Using `FFMpeg` to encapsulate **RSTP** into a **HLS** (*HTTP Live Streaming*)  
+  and using `hls.js` library to play stream in browser
+- Using `FFMpeg` to encapsulate **RSTP** into a **DASH** (*Dynamic Adaptive Streaming over HTTP*)  
+  and using `dash.js` library to play stream in browser
+- Using `FFMpeg` to encapsulate **RSTP** into a **FLV** (*Adobe Flash Video*)  
+  and using `flv.js` library to play stream in browser (TBD)
 
 <br><hr>
 
@@ -73,7 +81,7 @@ go build -ldflags="-s -w" .
   Server automatically starts stream server `stream/stream` as a child process
 - Navigate to: `https://localhost:8001/client/client/webrtc.hmtl`
 
-Note: Lowest real-world video latency is below 1sec
+*Note: Lowest real-world video latency is below 1sec*
 
 Server output:
 
@@ -126,8 +134,8 @@ ffmpeg -hide_banner -loglevel fatal \
 - Start web server: `node server/serve.js`
 - Navigate to: `https://localhost:8001/client/hls.hmtl`
 
-Note: Lowest real-world video latency is ~2.5sec  
-Targeting lower latency causes (recoverable) buffering issues
+*Note: Lowest real-world video latency is ~2.5sec*  
+*Targeting lower latency causes (recoverable) buffering issues*
 
 <br><hr>
 
@@ -158,8 +166,8 @@ ffmpeg -hide_banner -loglevel fatal \
 - Start web server: `node server/serve.js`
 - Navigate to: `http://localhost:8001/client/dash.hmtl`
 
-Note: Lowest real-world video latency is ~6.5sec  
-Targeting lower latency does not work with DASH and causes both runtime errors in the library as well as (recoverable) buffering issues
+*Note: Lowest real-world video latency is ~6.5sec*  
+*Targeting lower latency does not work with DASH and causes both runtime errors in the library as well as (recoverable) buffering issues*
 
 <br><hr>
 
