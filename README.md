@@ -1,24 +1,24 @@
 # Transcode & Play RTSP Video Streams in Browser
 
-Real Time Streaming Protocol (RTSP) and Real Time Messaging Protocol (RTMP) are
+Real Time Streaming Protocol (RTSP) and Real Time Messaging Protocol (RTMP) are  
 frequently used in security cameras and were originally supported in browsers  
-via plugins such as *RealMedia* (for RTSP) or *Flash* (for RTMP)
+via plugins such as *RealMedia* (for RTSP) or *Flash* (for RTMP)  
 
 However, such binary plugins are nowadays considered a security risk  
-and are disabled in all modern browsers
+and are disabled in all modern browsers  
 
-*So what are the options to view RTSP video stream in modern browsers?*
+*So what are the options to view RTSP video stream in modern browsers?*  
 
 - First we need to encapsulate video stream from RTSP into  
   a known streaming format on the server side  
   (all solutions require a server component)  
   And if camera already provides video stream in a well-known format such as H264,  
   we only need to re-encapsulate it, we don't need to decode/encode it,  
-  so operation is lightweight
+  so operation is lightweight  
 
 - Then we can access that new stream from the browser using standard `Video` element,  
 either natively or using a JavaScript library that provides  
-HTML5 Media Source Extensions to the Video element
+HTML5 Media Source Extensions to the Video element  
 
 ## Options
 
