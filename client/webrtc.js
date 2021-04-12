@@ -34,12 +34,16 @@ async function webRTC(streamName = null, elementName) {
         data: `${btoa(connection.localDescription?.sdp || '')}`,
       }),
     });
-    const data = await res.text();
-    connection.setRemoteDescription(new RTCSessionDescription({
-      type: 'answer',
-      sdp: atob(data),
-    }));
-    log('negotiation start:', offer);
+    const data = res && res.ok ? await res.text() : '';
+    if (data.length === 0) {
+      log('cannot connect:', `http://${location.hostname}${config.server.encoderPort}`);
+    } else {
+      connection.setRemoteDescription(new RTCSessionDescription({
+        type: 'answer',
+        sdp: atob(data),
+      }));
+      log('negotiation start:', offer);
+    }
   };
   connection.ontrack = (event) => {
     stream.addTrack(event.track);
@@ -47,16 +51,21 @@ async function webRTC(streamName = null, elementName) {
     // @ts-ignore
     if (video instanceof HTMLVideoElement) video.srcObject = stream;
     else log('element is not a video element:', elementName);
-    log('received track:', event.streams);
+    video.onloadeddata = async () => log('resolution:', video.videoWidth, video.videoHeight);
+    log('received track:', event.track, event.track.getSettings());
   };
 
   const res = await fetch(`http://${location.hostname}${config.server.encoderPort}/stream/codec/${suuid}`);
-  const streams = await res.json();
-  log('received streams:', streams);
-  for (const s of streams) connection.addTransceiver(s.Type, { direction: 'sendrecv' });
+  const streams = res && res.ok ? await res.json() : [];
+  if (streams.length === 0) log('received no streams');
+  else log('received streams:', streams);
+  for (const s of streams) {
+    connection.addTransceiver(s.Type, { direction: 'sendrecv' });
+  }
 
-  const channel = connection.createDataChannel('foo');
+  const channel = connection.createDataChannel(suuid, { maxRetransmits: 10 });
   channel.onmessage = (e) => log('channel message:', channel.label, 'payload', e.data);
+  channel.onerror = (e) => log('channel error:', channel.label, 'payload', e);
   channel.onclose = () => log('channel close');
   channel.onopen = () => {
     log('channel open');

@@ -10,15 +10,21 @@
     "startStreamServer": true
   },
   "streams": {
-    "reowhite": {
+    "main": {
       "VOD": false,
       "disableAudio": true,
       "debug": false,
-      "url": "rtsp://user:passowd@url:port/stream"
+      "url": "rtsp://user:password@server:port/stream"
+    },
+    "alternate": {
+      "VOD": false,
+      "disableAudio": true,
+      "debug": false,
+      "url": "rtsp://user:password@server:port/alternate"
     }
   },
   "client": {
     "debug": true,
-    "defaultStream": "reowhite"
+    "defaultStream": "main"
   }
 }
