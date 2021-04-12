@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "web-recommended"
+  ],
+  "browserslist": [
+    "last 1 versions",
+    "not ie < 20"
+  ],
+  "hints": {
+    "no-inline-styles": "off",
+    "meta-charset-utf-8": "off",
+    "sri": "off"
+  }
+}

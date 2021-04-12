@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Stream HLS</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=yes">
+    <meta name="keywords" content="Human">
+    <meta name="application-name" content="Human">
+    <meta name="description" content="Stream RTSP over HLS; Author: Vladimir Mandic <https://github.com/vladmandic>">
+    <meta name="msapplication-tooltip" content="Stream RTSP over HLS; Author: Vladimir Mandic <https://github.com/vladmandic>">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" crossorigin="anonymous"></script>
+  </head>
+  <body style="margin: 0">
+    <video width="100%" id="video" controls autoplay></video>
+    <script>
+      const src = '/tmp/reolink-white.m3u8';
+      const hlsConfig = {
+        enableWorker: true, // use workers
+        autoStartLoad: true, // auto play on load
+        maxBufferLength: 10, // limit forward buffer
+        backBufferLength: 0, // eliminate back buffer
+        liveSyncDuration: 3, // how close to live to target? shorter than 3sec causes frequent buffering issues
+        liveMaxLatencyDuration: 10, // if higher than this, adujst to liveSyncDuration
+        maxLiveSyncPlaybackRate: 2, // if running behind, speed up video
+        initialLiveManifestSize: 2, // preload 2 chunks before autostart
+        liveDurationInfinity: true, // instructs browser that video is live
+        progressive: true, // use fetch instead of xhr
+        lowLatencyMode: true, // enable low latency mode
+        nudgeMaxRetry: 5, // increase retries before buffer stalled
+        testBandwidth: false, // disable auto bandwidth estimation
+      }
+      const hls = new Hls(hlsConfig);
+      const video = document.getElementById('video');
+      if (Hls.isSupported()) {
+        hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => console.log('hls manifest:', data.levels[0]));
+        hls.on(Hls.Events.FRAG_BUFFERED, () => console.log('hls fragment', 'position:', Math.round(10 * hls.liveSyncPosition) / 10, 'latency:', Math.round(10 * hls.latency) / 10));
+        hls.on(Hls.Events.ERROR, (event, data) => console.error('hls error', data));
+        hls.loadSource(src);
+        hls.attachMedia(video);
+      }
+    </script>
+  </body>
+</html>

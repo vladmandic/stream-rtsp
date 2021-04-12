@@ -1,0 +1,10 @@
+{
+  "name": "Stream RTSP",
+  "short_name": "Stream RTSP",
+  "icons": [{ "src": "../favicon.ico", "sizes": "256x256", "type": "image/ico", "purpose": "any maskable" }],
+  "start_url": "./webrtc.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000"
+}
