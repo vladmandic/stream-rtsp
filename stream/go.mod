@@ -1,5 +1,3 @@
-// credits: https://github.com/deepch/RTSPtoWebRTC
-
 module stream
 
 go 1.15

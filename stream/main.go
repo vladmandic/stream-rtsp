@@ -1,3 +1,5 @@
+// credits: https://github.com/deepch/RTSPtoWebRTC
+
 package main
 
 import (
@@ -8,7 +10,7 @@ import (
 )
 
 func main() {
-	log.SetFlags(0);
+	log.SetFlags(0)
 	go serveHTTP()
 	go serveStreams()
 	sigs := make(chan os.Signal, 1)

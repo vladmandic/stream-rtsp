@@ -4,6 +4,7 @@
   "description": "Stream RTSP to Browser via WecRTC, HLS or DASH",
   "main": "server/serve.js",
   "scripts": {
+    "build": "cd stream; go build -ldflags='-s -w' .; cd ..",
     "start": "node server/serve",
     "lint": "eslint server client"
   },
