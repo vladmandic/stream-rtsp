@@ -34,7 +34,7 @@ async function webRTC(streamName = null, elementName) {
         data: `${btoa(connection.localDescription?.sdp || '')}`,
       }),
     });
-    const data = res && res.ok ? await res.text() : '';
+    const data = (res && res.ok) ? await res.text() : '';
     if (data.length === 0) {
       log('cannot connect:', `http://${location.hostname}${config.server.encoderPort}`);
     } else {
