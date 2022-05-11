@@ -15,7 +15,7 @@ async function getConfig() {
   return json;
 }
 
-async function webRTC(streamName = null, elementName) {
+async function webRTC(streamName = null, elementName = null) {
   if (!config) config = await getConfig();
   const suuid = streamName || config.client.defaultStream;
   log('client starting');
