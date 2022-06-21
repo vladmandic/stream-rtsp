@@ -79,7 +79,7 @@ go build -ldflags="-s -w" .
 
 - Start web server: `node server/serve.js`  
   Server automatically starts stream server `stream/stream` as a child process
-- Navigate to: `https://localhost:8001/client/client/webrtc.hmtl`
+- Navigate to: `https://localhost:8001/client/webrtc.hmtl`
 
 *Note: Lowest real-world video latency is below 1sec*
 
