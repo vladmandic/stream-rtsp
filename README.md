@@ -26,11 +26,11 @@ Best solution is to use latest web streaming standard **WebRTC** (*Web Real-Time
 
 This project also provides additional examples for:
 
-- Using `FFMpeg` to encapsulate **RSTP** into a **HLS** (*HTTP Live Streaming*)  
+- Using `FFMpeg` to encapsulate **RTSP** into a **HLS** (*HTTP Live Streaming*)  
   and using `hls.js` library to play stream in browser
-- Using `FFMpeg` to encapsulate **RSTP** into a **DASH** (*Dynamic Adaptive Streaming over HTTP*)  
+- Using `FFMpeg` to encapsulate **RTSP** into a **DASH** (*Dynamic Adaptive Streaming over HTTP*)  
   and using `dash.js` library to play stream in browser
-- Using `FFMpeg` to encapsulate **RSTP** into a **FLV** (*Adobe Flash Video*)  
+- Using `FFMpeg` to encapsulate **RTSP** into a **FLV** (*Adobe Flash Video*)  
   and using `flv.js` library to play stream in browser (TBD)
 
 <br><hr>
