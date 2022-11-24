@@ -6,25 +6,19 @@
     "iceServers": [],
     "webrtcMinPort": 32768,
     "webrtcMaxPort": 65535,
-    "retryConnectSec": 5,
+    "retryConnectSec": 10,
     "startStreamServer": true
   },
   "streams": {
-    "main": {
+    "reowhite": {
       "VOD": false,
       "disableAudio": true,
       "debug": false,
-      "url": "rtsp://user:password@server:port/stream"
-    },
-    "alternate": {
-      "VOD": false,
-      "disableAudio": true,
-      "debug": false,
-      "url": "rtsp://user:password@server:port/alternate"
+      "url": "rtsp://admin:xxx@reolink-white:554/h264Preview_01_main"
     }
   },
   "client": {
     "debug": true,
-    "defaultStream": "main"
+    "defaultStream": "reowhite"
   }
 }

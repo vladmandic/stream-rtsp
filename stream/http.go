@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"time"
+
 	"github.com/deepch/vdk/av"
 	webrtc "github.com/deepch/vdk/format/webrtcv3"
 	"github.com/gin-gonic/gin"
@@ -18,10 +19,10 @@ func serveHTTP() {
 	router := gin.Default()
 	router.POST("/stream/receiver/:uuid", HTTPAPIServerStreamWebRTC)
 	router.GET("/stream/codec/:uuid", HTTPAPIServerStreamCodec)
-	log.Println("Start HTTP Server:", Config.Server.HTTPPort)
+	log.Println("http server ", Config.Server.HTTPPort)
 	err := router.Run(Config.Server.HTTPPort)
 	if err != nil {
-		log.Fatalln("Start HTTP Server error", err)
+		log.Fatalln("http server error:", err)
 	}
 }
 
@@ -37,7 +38,7 @@ func HTTPAPIServerStreamCodec(c *gin.Context) {
 		var tmpCodec []JCodec
 		for _, codec := range codecs {
 			if codec.Type() != av.H264 && codec.Type() != av.PCM_ALAW && codec.Type() != av.PCM_MULAW && codec.Type() != av.OPUS {
-				log.Println("Codec Not Supported WebRTC ignore this track", codec.Type())
+				log.Println("codec not supported:", codec.Type())
 				continue
 			}
 			if codec.Type().IsVideo() {
@@ -50,7 +51,7 @@ func HTTPAPIServerStreamCodec(c *gin.Context) {
 		if err == nil {
 			_, err = c.Writer.Write(b)
 			if err != nil {
-				log.Println("Write Codec Info error", err)
+				log.Println("codec info error", err)
 				return
 			}
 		}
@@ -61,13 +62,13 @@ func HTTPAPIServerStreamCodec(c *gin.Context) {
 func HTTPAPIServerStreamWebRTC(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	if !Config.ext(c.PostForm("suuid")) {
-		log.Println("Stream Not Found")
+		log.Println("stream not found")
 		return
 	}
 	Config.RunIFNotRun(c.PostForm("suuid"))
 	codecs := Config.coGe(c.PostForm("suuid"))
 	if codecs == nil {
-		log.Println("Stream Codec Not Found")
+		log.Println("codec not found")
 		return
 	}
 	var AudioOnly bool
@@ -77,12 +78,12 @@ func HTTPAPIServerStreamWebRTC(c *gin.Context) {
 	muxerWebRTC := webrtc.NewMuxer(webrtc.Options{ICEServers: Config.GetICEServers(), PortMin: Config.GetWebRTCPortMin(), PortMax: Config.GetWebRTCPortMax()})
 	answer, err := muxerWebRTC.WriteHeader(codecs, c.PostForm("data"))
 	if err != nil {
-		log.Println("WriteHeader", err)
+		log.Println("header:", err)
 		return
 	}
 	_, err = c.Writer.Write([]byte(answer))
 	if err != nil {
-		log.Println("Write", err)
+		log.Println("write:", err)
 		return
 	}
 	go func() {
@@ -94,7 +95,7 @@ func HTTPAPIServerStreamWebRTC(c *gin.Context) {
 		for {
 			select {
 			case <-noVideo.C:
-				log.Println("noVideo")
+				log.Println("novideo")
 				return
 			case pck := <-ch:
 				if pck.IsKeyFrame || AudioOnly {
@@ -106,7 +107,7 @@ func HTTPAPIServerStreamWebRTC(c *gin.Context) {
 				}
 				err = muxerWebRTC.WritePacket(pck)
 				if err != nil {
-					log.Println("WritePacket", err)
+					log.Println("packet:", err)
 					return
 				}
 			}

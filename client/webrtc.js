@@ -56,9 +56,15 @@ async function webRTC(streamName = null, elementName = null) {
   };
 
   const res = await fetch(`http://${location.hostname}${config.server.encoderPort}/stream/codec/${suuid}`);
-  const streams = res && res.ok ? await res.json() : [];
-  if (streams.length === 0) log('received no streams');
-  else log('received streams:', streams);
+  let streams = [];
+  try {
+    streams = res && res.ok ? await res.json() : [];
+  } catch { /**/ }
+  if (streams.length === 0) {
+    log('received no streams');
+    return;
+  }
+  log('received streams:', streams);
   for (const s of streams) {
     connection.addTransceiver(s.Type, { direction: 'sendrecv' });
   }

@@ -1,5 +1,4 @@
 pnpm-lock.yaml
-private.json
 node_modules/*
 stream/*.sum
 stream/stream

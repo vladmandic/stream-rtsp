@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"time"
+
 	"github.com/deepch/vdk/format/rtspv2"
 )
 
@@ -23,16 +24,15 @@ func serveStreams() {
 func RTSPWorkerLoop(name, url string, OnDemand, DisableAudio, Debug bool) {
 	defer Config.RunUnlock(name)
 	for {
-		log.Println("stream connect:", name)
+		log.Println("connect:", name)
 		err := RTSPWorker(name, url, OnDemand, DisableAudio, Debug)
 		if err != nil {
-			log.Println("stream error:", err)
+			log.Println("error:", err)
 		}
 		if OnDemand && !Config.HasViewer(name) {
-			log.Println(ErrorStreamExitNoViewer)
+			log.Println("error:", "vod no viewer")
 			return
 		}
-		// log.Println("Retry After:", Config.Server.RetryConnect * time.Second)
 		time.Sleep(Config.Server.RetryConnect * time.Second)
 	}
 }

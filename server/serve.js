@@ -93,7 +93,7 @@ async function httpRequest(req, res) {
         const ext = String(path.extname(result.file)).toLowerCase();
         const contentType = mime[ext] || 'application/octet-stream';
         res.writeHead(200, {
-          'Content-Language': 'en', 'Content-Type': contentType, 'Last-Modified': result.stat.mtime, 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Access-Control-Allow-Origin': '*',
+          'Content-Language': 'en', 'Content-Type': contentType, 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff', 'Access-Control-Allow-Origin': '*',
         });
         if (!req.headers.range) {
           const stream = fs.createReadStream(result.file);
@@ -118,7 +118,7 @@ async function httpRequest(req, res) {
         }
       }
       if (result?.stat?.isDirectory()) {
-        res.writeHead(200, { 'Content-Language': 'en', 'Content-Type': 'application/json; charset=utf-8', 'Last-Modified': result.stat.mtime, 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' });
+        res.writeHead(200, { 'Content-Language': 'en', 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' });
         let dir = fs.readdirSync(result.file);
         dir = dir.map((f) => path.join(decodeURI(req.url), f));
         res.end(JSON.stringify(dir), 'utf-8');
@@ -130,9 +130,9 @@ async function httpRequest(req, res) {
 
 async function startStreamServer() {
   const streamServer = child.spawn('stream/stream');
-  streamServer.stdout.on('data', (data) => log.data('stream server:', data?.toString().replace(/[\r\n]+/gm, '')));
-  streamServer.stderr.on('data', (data) => log.data('stream server:', data?.toString().replace(/[\r\n]+/gm, '')));
-  streamServer.on('close', (data) => log.data('stream server closed:', data?.toString()));
+  streamServer.stdout.on('data', (data) => log.data('stream:', data?.toString().replace(/[\r\n]+/gm, '')));
+  streamServer.stderr.on('data', (data) => log.data('stream:', data?.toString().replace(/[\r\n]+/gm, '')));
+  streamServer.on('close', (data) => log.data('stream closed:', data?.toString()));
 }
 
 // app main entry point
@@ -142,15 +142,15 @@ async function main() {
   if (options.httpPort && options.httpPort > 0) {
     // @ts-ignore // ignore invalid options
     const server1 = http.createServer(options, httpRequest);
-    server1.on('listening', () => log.state('HTTP server listening:', options.httpPort));
-    server1.on('error', (err) => log.error('HTTP server:', err.message || err));
+    server1.on('listening', () => log.state('http server listening:', options.httpPort));
+    server1.on('error', (err) => log.error('http server:', err.message || err));
     server1.listen(options.httpPort);
   }
   if (options.httpsPort && options.httpsPort > 0) {
     // @ts-ignore // ignore invalid options
     const server2 = http2.createSecureServer(options, httpRequest);
-    server2.on('listening', () => log.state('HTTP2 server listening:', options.httpsPort));
-    server2.on('error', (err) => log.error('HTTP2 server:', err.message || err));
+    server2.on('listening', () => log.state('http2 server listening:', options.httpsPort));
+    server2.on('error', (err) => log.error('http2 server:', err.message || err));
     server2.listen(options.httpsPort);
   }
   if (config.server.startStreamServer) startStreamServer();
