@@ -1,9 +1,9 @@
 {
   "name": "stream-rtsp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stream RTSP to Browser via WecRTC, HLS or DASH",
   "scripts": {
-    "build": "cd stream; go build -ldflags='-s -w' .; cd ..",
+    "build": "cd stream; go clean; go get ./...; go build -ldflags='-s -w' .; cd ..",
     "start": "node server/serve",
     "lint": "eslint server client"
   },
