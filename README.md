@@ -39,11 +39,24 @@ This project also provides additional examples for:
 
 This option is by far the fastest and uses least amount of resources as it does not require actual transcoding of the video stream and instead simply re-encapsulates available video stream found in `rtsp` into `webrtc` format  
 
-However, it requires that video stream presented by camera via `rtsp` is a supported codec: **H264**, **PCM_ALAW**, **PCM_MULAW** or **OPUS**.  
+However, it requires that video stream presented by camera via `rtsp` is a supported codec:
+- video must be **H264**
+- audio stream can be **PCM_ALAW** or **OPUS**  
+
 If video codec is not supported, then only option is to use actual transcoding - see options using `ffmpeg` instead.
 
+### 1. Build
 
-### 1. Configure
+Build stream server:
+
+> npm run build
+
+Which installs all required **GoLang** dependencies and creates a static executable `stream/stream`  
+Binaries are not prepackaged since:
+- They are platform specific (Linux, Windows, Mac, ARM, etc.),
+- Size - I don't want to post large binaries on GitHub (~13MB per platform)
+
+### 2. Configure
 
 Create configuration `config.json`  
 
@@ -74,7 +87,7 @@ Create configuration `config.json`
 }
 ```
 
-### 2. Start Server
+### 3. Start Server
 
 `npm start`
 
@@ -99,7 +112,7 @@ DATA:  stream: video detectedSet UDP ports to 32768 .. 65535
 DATA:  stream: [GIN] 2022/11/24 - 09:41:45 | 200 | 82.300765ms | ::1 | POST "/stream/receiver/reowhite"
 ```
 
-### 3. Connect Client
+### 4. Connect Client
 
 Navigate to: <https://localhost:8001/client/webrtc.html>  
 It should display the webrtc stream from camera  
@@ -124,13 +137,7 @@ webrtc channel open
 webrtc resolution: 2560 1920
 ```
 
-### 4. Rebuild & Troubleshoot
-
-#### Rebuild
-
-To build stream server in `stream/stream`
-
-> npm run build
+### 5. Troubleshoot
 
 #### Disconnect Loop
 
