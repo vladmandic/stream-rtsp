@@ -118,7 +118,14 @@ async function httpRequest(req, res) {
         }
       }
       if (result?.stat?.isDirectory()) {
-        res.writeHead(200, { 'Content-Language': 'en', 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache', 'X-Content-Type-Options': 'nosniff' });
+        res.writeHead(200, {
+          'Content-Language': 'en',
+          'Content-Type': 'application/json; charset=utf-8',
+          'Cache-Control': 'no-cache',
+          'X-Content-Type-Options': 'nosniff',
+          // 'Content-Security-Policy': "media-src 'self' http: https: data:",
+          // 'Access-Control-Allow-Origin': '*',
+        });
         let dir = fs.readdirSync(result.file);
         dir = dir.map((f) => path.join(decodeURI(req.url), f));
         res.end(JSON.stringify(dir), 'utf-8');
